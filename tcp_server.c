@@ -6,11 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
-struct Client{
-    int index;
-    int port;
-    char ip[12];
-};
+
 int main(int argc, char* argv[])
 {
 
@@ -62,9 +58,9 @@ int main(int argc, char* argv[])
         ret = recv(client, buf, sizeof(buf), 0);
         if (ret <= 0)
             break;
-        while(!feof(f_detail)){
-            fprintf(f_detail,"%s",buf);
-        }
+        buf[ret] =0;
+        fprintf(f_detail,"%s",buf);
+
     }
     fclose(f_hello);
     fclose(f_detail);

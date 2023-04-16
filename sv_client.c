@@ -39,9 +39,10 @@ int main(int argc, char* argv[])
         printf("Nhap thong tin sinh vien:\n");
         printf("1.MSSV :");
         fgets(mssv,sizeof(mssv),stdin);
+        if(mssv[0] == 0 || mssv[0] == '\n') break;
         printf("2.Ho ten :");
         fgets(hoten,sizeof(hoten),stdin);
-        printf("3.Ngay sinh (dd/mm/yyyy) :");
+        printf("3.Ngay sinh (dd-mm-yyyy) :");
         fgets(ngaysinh,sizeof(ngaysinh),stdin);
         printf("4.Diem trunh binh :");
         fgets(dtb,sizeof(dtb),stdin);
@@ -50,7 +51,6 @@ int main(int argc, char* argv[])
         strcat(buf,hoten);
         strcat(buf,ngaysinh);
         strcat(buf,dtb);
-        if(buf[0] == '\n') break;        //Dung nhap tin nhan khi nguoi dung nhap ky tu "xuong dong"
         send(client, buf,strlen(buf) , 0);
     }
     close(client);
