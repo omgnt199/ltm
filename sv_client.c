@@ -50,6 +50,7 @@ int main(int argc, char* argv[])
         strcat(buf,hoten);
         strcat(buf,ngaysinh);
         strcat(buf,dtb);
+        if(buf[0] == '\n') break;        //Dung nhap tin nhan khi nguoi dung nhap ky tu "xuong dong"
         send(client, buf,strlen(buf) , 0);
     }
     close(client);

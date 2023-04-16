@@ -6,8 +6,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
-#include <time.h>
-// Server nhan file tu client
 struct Client{
     int index;
     int port;
@@ -50,8 +48,6 @@ int main(int argc, char* argv[])
     FILE *f_hello = fopen(hello_file,"w");
     FILE *f_detail =fopen(detail_file,"w");
     int client = accept(listener, (struct sockaddr *)&clientAddr, &clientAddrLen);
-    // int client = accept(listener, (struct sockaddr *)&clientAddr, &clientAddrLen);
-    // printf("%d\n",client);
     printf("Client IP: %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
     char hello[2048] = "Xin chao client voi dia chi IP ";
     char client_port[20];
@@ -60,20 +56,15 @@ int main(int argc, char* argv[])
     strcat(hello," va cong ung dung ");
     strcat(hello,client_port);
     fprintf(f_hello,"%s",hello);
-    time_t timer;
-    char timebuf[26];
-    struct tm* tm_info;
     while(1){
         char buf[2048]; 
         int ret;
         ret = recv(client, buf, sizeof(buf), 0);
-        timer = time(NULL);
-        tm_info = localtime(&timer);
-        strftime(timebuf, 26, "%Y-%m-%d %H:%M:%S", tm_info);
         if (ret <= 0)
             break;
-        strcat(buf,timebuf);
-        fprintf(f_detail,"%s",buf);
+        while(!feof(f_detail)){
+            fprintf(f_detail,"%s",buf);
+        }
     }
     fclose(f_hello);
     fclose(f_detail);
