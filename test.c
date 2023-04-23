@@ -7,16 +7,18 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <time.h>
+int findcountstring(char *str1, char *str2){
+
+}
 int main(){
-    time_t timer;
-    char buffer[26];
-    struct tm* tm_info;
-
-    timer = time(NULL);
-    tm_info = localtime(&timer);
-
-    strftime(buffer, 26, "%Y-%m-%d %H:%M:%S", tm_info);
-    puts(buffer);
-
+    FILE *f = fopen("/home/omgbk/homework/20230417/Bai0102/soict.txt","r");
+    char buf[2048];
+    char p[] = "0123456789";
+    char *s;
+    fscanf(f,"%s",buf);
+    int len = strlen(buf);
+    s = strstr(buf,"0123456789");
+    printf("%s\n",s);
+    
     return 0;
 }
