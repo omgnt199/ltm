@@ -15,12 +15,13 @@ struct Client{
 };
 int main(int argc, char* argv[])
 {
-
+    //Xu ly tham so dong lenh
     char SERVER_ADDR[] = "127.0.0.1";
     int SERVER_PORT;
     char detail_file[100];
     sscanf(argv[1],"%d",&SERVER_PORT);
     strcpy(detail_file,argv[2]);
+
     int listener = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (listener == -1)
     {

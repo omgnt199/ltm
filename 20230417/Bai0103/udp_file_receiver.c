@@ -6,20 +6,14 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <string.h>
-//Ham tim so lan xuat hien xau
-int findcountstring(char *str1, char *str2){
-    int count = 0;
-    while(strstr(str2,str1)!= NULL){
-        count++;
-        char *s;
-        s = strstr(str2,str1);
-        strcpy(str2,&s[10]);
-    }
-    return count;
-}
-int main() 
+
+int main(int argc, char *argv[]) 
 {
-    int listener = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    //Xu ly tham so dong lenh
+    char SERVER_ADDR[] = "127.0.0.1";
+    int SERVER_PORT;
+    sscanf(argv[1],"%d",&SERVER_PORT);
+    int listener = socket(AF_INET, SOCK_DGRAM, IPPROTO_TCP);
     if (listener == -1)
     {
         perror("socket() failed");
@@ -28,8 +22,8 @@ int main()
 
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    addr.sin_port = htons(9090);
+    addr.sin_addr.s_addr = inet_addr(SERVER_ADDR);
+    addr.sin_port = htons(SERVER_PORT);
 
     if (bind(listener, (struct sockaddr *)&addr, sizeof(addr))) 
     {
@@ -53,11 +47,10 @@ int main()
     }
     printf("New client connected: %d\n", client);
     // Truyen nhan du lieu
+    FILE *f = fopen("file_receiver.txt","w");
     char buf[2048];
-    char str[] = "0123456789";
-    int ret = recv(client,buf, sizeof(buf), 0);
+    int ret = recvfrom(client,buf, sizeof(buf), 0,NULL,NULL);
     buf[ret] = 0;
-    printf("So lan xuat hien xau ky tu la:%d\n",findcountstring(str,buf));
     close(client);
     close(listener);    
     return 0;
